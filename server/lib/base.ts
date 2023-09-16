@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import qs from "qs";
-import { load } from "cheerio";
+import { AnyNode, load } from "cheerio";
 import { wrapper } from "axios-cookiejar-support";
 import { CookieJar } from "tough-cookie";
 
@@ -47,7 +47,7 @@ export class BaseScraper {
 		return this.cookie;
 	}
 
-	loadHtml(html: string) {
+	loadHtml(html: string | AnyNode | AnyNode[]) {
 		return load(html);
 	}
 

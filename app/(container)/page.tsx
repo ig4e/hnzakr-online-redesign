@@ -26,7 +26,7 @@ const cards = [
 ];
 
 export default function Home() {
-	const userQuery = trpc.user.getUser.useQuery();
+	// const userQuery = trpc.user.getUser.useQuery();
 
 	return (
 		<main className="flex items-center flex-col mt-16 gap-16">
@@ -37,9 +37,12 @@ export default function Home() {
 					منصة تعليمية للمرحلة الثانوية
 				</Badge>
 				<div className="space-y-6">
-					<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl relative">
-						أهلآ بكم فى هنذاكر <span className="text-green-500 z-20">أونلاين</span>
-						<div className="h-8 w-8 bg-green-400 dark:bg-green-900 rounded-full absolute end-0 -bottom-4 -z-10"></div>
+					<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
+						أهلآ بكم فى هنذاكر{" "}
+						<span className="text-green-500 z-20 relative">
+							أونلاين
+							<div className="h-8 w-8 bg-green-400 dark:bg-green-900 rounded-full absolute -end-2 bottom-0 -z-10"></div>
+						</span>
 					</h1>
 					<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight [text-wrap:_balance;] max-w-xl">
 						إن تعليم الناس وتثقيفهم في حدّ ذاته ثروة كبيرة نعتز بها، فالعلم ثروة ونحن نبني المستقبل على أساس علمي.
