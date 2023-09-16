@@ -24,7 +24,7 @@ export class BaseScraper {
 		this.namehnzakr = namehnzakr;
 		this.password = password;
 
-		this.cookie.split(" ").forEach((cookie) => this.jar.setCookie(cookie, "https://hnzakronline.com/"));
+		this.cookie.split(" ").forEach((cookie) => cookie && this.jar.setCookie(cookie, "https://hnzakronline.com/"));
 	}
 
 	async getCookie(): Promise<string> {
