@@ -29,6 +29,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 	const scraper = new Scraper({
 		namehnzakr: tokenPayload?.namehnzakr ?? "NOT_SET",
 		password: tokenPayload?.password ?? "NOT_SET",
+		cookie: tokenPayload?.cookie ?? "",
 	});
 
 	return createInnerTRPCContext({ scraper: scraper });

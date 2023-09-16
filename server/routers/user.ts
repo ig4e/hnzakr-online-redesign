@@ -13,10 +13,14 @@ export const userRouter = router({
 				throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid credentials" });
 			})
 			.then(async (cookie) => {
-				return signJwt({
-					namehnzakr: input.username,
-					password: input.password,
-				});
+				return {
+					token: signJwt({
+						namehnzakr: input.username,
+						password: input.password,
+						cookie: cookie,
+					}),
+					cookie: cookie,
+				};
 			});
 	}),
 

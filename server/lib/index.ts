@@ -6,12 +6,7 @@ export class Scraper extends BaseScraper {
 		super(args);
 	}
 
-	private async ensureCookieIsGenerated() {
-		if (!this.cookie) return await this.getCookie();
-	}
-
 	async getUser() {
-		await this.ensureCookieIsGenerated();
 		const { data } = await this.client.get("/EditProfile");
 		const $ = this.loadHtml(data);
 

@@ -23,6 +23,7 @@ function Provider({ children }: { children: React.ReactNode }) {
 					headers() {
 						return {
 							authorization: `Bearer ${localStorage.getItem("token")}`,
+							"x-phpsessid": `${localStorage.getItem("phpsessid")}`,
 						};
 					},
 				}),

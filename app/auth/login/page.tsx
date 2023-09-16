@@ -21,7 +21,8 @@ function Login() {
 	const { toast } = useToast();
 	const { isLoading, error, mutate } = trpc.user.login.useMutation({
 		onSuccess(data) {
-			localStorage.setItem("token", data);
+			localStorage.setItem("token", data.token);
+
 			toast({
 				title: "تم تسجيل الدخول بنجاح",
 			});

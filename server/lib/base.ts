@@ -23,6 +23,8 @@ export class BaseScraper {
 		this.cookie = cookie ?? "";
 		this.namehnzakr = namehnzakr;
 		this.password = password;
+
+		this.cookie.split(" ").forEach((cookie) => this.jar.setCookie(cookie, "https://hnzakronline.com/"));
 	}
 
 	async getCookie(): Promise<string> {
@@ -35,6 +37,8 @@ export class BaseScraper {
 				remmberme: "remmberme",
 			}),
 		});
+
+		console.log("LOGIN REQUEST");
 
 		this.cookie = await this.jar.getCookieString("https://hnzakronline.com/");
 
