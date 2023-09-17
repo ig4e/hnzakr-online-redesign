@@ -29,4 +29,10 @@ export const userRouter = router({
 
 		return user;
 	}),
+
+	getNotifications: protectedProcedure.query(async ({ ctx }) => {
+		const notifications = await ctx.scraper.getNotifications();
+
+		return notifications;
+	}),
 });

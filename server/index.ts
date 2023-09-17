@@ -1,8 +1,10 @@
 import { router } from "@/server/trpc";
 import { userRouter } from "./routers/user";
+import { packageRouter } from "./routers/packages";
 
 export const appRouter = router({
 	user: userRouter,
+	package: packageRouter,
 });
 
 // Export type router type signature,

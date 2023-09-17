@@ -3,11 +3,20 @@ import qs from "qs";
 import { AnyNode, load } from "cheerio";
 import { wrapper } from "axios-cookiejar-support";
 import { CookieJar } from "tough-cookie";
+import queryString from "query-string";
 
 export interface BaseScraperOptions {
 	namehnzakr: string;
 	password: string;
 	cookie?: string;
+}
+
+export interface ParsedIDs {
+	packageId?: string;
+	subjectId?: string;
+	lessonId?: string;
+	purchId?: string;
+	raw: string;
 }
 
 export class BaseScraper {
@@ -24,7 +33,9 @@ export class BaseScraper {
 		this.namehnzakr = namehnzakr;
 		this.password = password;
 
-		this.cookie.split(" ").forEach((cookie) => cookie && this.jar.setCookie(cookie, "https://hnzakronline.com/"));
+		this.cookie
+			.split(" ")
+			.forEach((cookie) => cookie && this.jar.setCookie(cookie, "https://hnzakronline.com/").catch((err) => console.error(err)));
 	}
 
 	async getCookie(): Promise<string> {
@@ -57,5 +68,17 @@ export class BaseScraper {
 
 	parseNumber(number: string) {
 		return Number(this.cleanString(number.replace(/[^0-9]/g, "")));
+	}
+
+	parseUrl(url: string) {
+		const { query } = queryString.parseUrl(url);
+
+		return {
+			packageId: query["package"],
+			subjectId: query["subject"],
+			lessonId: query["lesson"],
+			purchId: query["purch"],
+			raw: url,
+		} as ParsedIDs;
 	}
 }

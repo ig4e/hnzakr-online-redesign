@@ -3,6 +3,7 @@ import { ModeToggle } from "./mode-toggle";
 import Image from "next/image";
 import { LogoDark, LogoLight } from "./assets";
 import { UserMenu } from "./user-menu";
+import NotificatiosButton from "./notificatios-button";
 
 export function SiteHeader() {
 	return (
@@ -15,6 +16,7 @@ export function SiteHeader() {
 					</Link>
 				</div>
 				<div className="flex items-center gap-2">
+					<NotificatiosButton />
 					<UserMenu />
 				</div>
 			</div>

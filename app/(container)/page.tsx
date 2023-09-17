@@ -33,7 +33,7 @@ export default function Home() {
 			<div className="fixed -z-10 inset-0 bg-gradient-to-b from-background to-green-300 dark:to-green-950"></div>
 
 			<div className="text-center space-y-4">
-				<Badge variant={"outline"} className="text-sm">
+				<Badge variant={"outline"} className="text-base">
 					منصة تعليمية للمرحلة الثانوية
 				</Badge>
 				<div className="space-y-6">

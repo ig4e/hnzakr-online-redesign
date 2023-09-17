@@ -30,7 +30,7 @@ export function UserMenu() {
 			{(isLoading || data) && (
 				<DropdownMenuTrigger asChild>
 					<Button variant={"outline"} size="icon" className="rounded-full" disabled={isLoading}>
-						{isLoading && <Icons.spinner className="animate-spin h-5 w-5 !text-white stroke-current" />}
+						{isLoading && <Icons.spinner className="animate-spin h-5 w-5 stroke-current" />}
 						{data && (
 							<Avatar>
 								<AvatarImage src={data.imageURL} />
