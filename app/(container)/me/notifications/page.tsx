@@ -2,6 +2,7 @@
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/api";
+import Link from "next/link";
 import React, { useMemo } from "react";
 
 function NotificationsPage() {
@@ -15,7 +16,7 @@ function NotificationsPage() {
 				</div>
 			)}
 
-			<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{isLoading &&
 					Array(10)
 						.fill(null)
@@ -32,12 +33,14 @@ function NotificationsPage() {
 
 				{data &&
 					data.notifications.map((notification, index) => (
-						<Card key={index + "skeleton"}>
-							<CardHeader>{notification.title}</CardHeader>
-							<CardFooter>
-								<p>التاريخ: {notification.createdAt}</p>
-							</CardFooter>
-						</Card>
+						<Link key={index + "skeleton"} href={`/lesson?id=${notification.parsedIDs.lessonId}&package=${notification.parsedIDs.packageId}`}>
+							<Card className="hover:bg-secondary hover:border-primary transition">
+								<CardHeader>{notification.title}</CardHeader>
+								<CardFooter>
+									<p>التاريخ: {notification.createdAt}</p>
+								</CardFooter>
+							</Card>
+						</Link>
 					))}
 			</div>
 		</>

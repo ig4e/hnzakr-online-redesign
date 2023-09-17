@@ -11,7 +11,7 @@ function NotificatiosButton() {
 	const { data, isLoading } = trpc.user.getNotifications.useQuery();
 
 	return (
-		<Link href={"/@me/notifications"}>
+		<Link href={"/me/notifications"}>
 			<Button className="rounded-full relative p-2 w-10 h-10" variant={"ghost"} disabled={isLoading}>
 				{isLoading && <Icons.spinner className="animate-spin h-5 w-5 stroke-current" />}
 				{data && <BellIcon className="h-5 w-5 stroke-current"></BellIcon>}
