@@ -1,12 +1,12 @@
 "use client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { trpc } from "@/utils/api";
-import ReactPlayer from "react-player";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { trpc } from "@/utils/api";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { Download, ExternalLink } from "lucide-react";
+import ReactPlayer from "react-player";
 
 export default function LessonPage({ params }: { params: { slug: [string, string, string] } }) {
 	const [packageId, lessonId, purchId] = params.slug;
@@ -15,10 +15,23 @@ export default function LessonPage({ params }: { params: { slug: [string, string
 		packageId: Number(packageId),
 		purchId: Number(purchId),
 	});
-	const [videoIndex, setVideoIndex] = useState(0);
 
 	return (
 		<div>
+			{isLoading && (
+				<div className="space-y-4">
+					<div className="space-y-2">
+						<Skeleton className="w-full md:w-1/4 h-[36px] rounded-md" />
+
+						<Skeleton className="w-full h-full aspect-video rounded-md" />
+					</div>
+
+					<Skeleton className="w-1/2 md:w-1/3 h-[36px] rounded-full" />
+
+					<Skeleton className="w-full h-[256px] rounded-md" />
+				</div>
+			)}
+
 			{data && (
 				<div className="space-y-4">
 					<Tabs defaultValue={"video-0"} className="" dir="rtl">
