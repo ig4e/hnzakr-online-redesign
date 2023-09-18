@@ -8,3 +8,11 @@ export interface Package {
 	endAt: string;
 	parsedIDs: ParsedIDs;
 }
+
+export interface PackageSubject {
+	id: number;
+	imageURL: string;
+	name: string;
+	description: string;
+	parsedIDs: ParsedIDs;
+}

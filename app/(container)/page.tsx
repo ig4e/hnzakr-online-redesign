@@ -26,7 +26,7 @@ const cards = [
 ];
 
 export default function Home() {
-	// const userQuery = trpc.user.getUser.useQuery();
+	//const testQuery = trpc.subject.getLessons.useQuery({ id: 16395, packageId: 65, purchId: 16395 });
 
 	return (
 		<main className="flex items-center flex-col mt-16 gap-16">

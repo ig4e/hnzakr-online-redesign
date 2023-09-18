@@ -1,10 +1,14 @@
 import { router } from "@/server/trpc";
 import { userRouter } from "./routers/user";
-import { packageRouter } from "./routers/packages";
+import { packageRouter } from "./routers/package";
+import { subjectRouter } from "./routers/subject";
+import { lessonRouter } from "./routers/lesson";
 
 export const appRouter = router({
 	user: userRouter,
 	package: packageRouter,
+	subject: subjectRouter,
+	lesson: lessonRouter
 });
 
 // Export type router type signature,

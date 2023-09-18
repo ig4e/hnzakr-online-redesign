@@ -16,6 +16,7 @@ export interface ParsedIDs {
 	subjectId?: string;
 	lessonId?: string;
 	purchId?: string;
+	path: string;
 	raw: string;
 }
 
@@ -36,6 +37,14 @@ export class BaseScraper {
 		this.cookie
 			.split(" ")
 			.forEach((cookie) => cookie && this.jar.setCookie(cookie, "https://hnzakronline.com/").catch((err) => console.error(err)));
+	}
+
+	async getYoutubeVideoInfo(url: string) {
+		const { data } = await axios({
+			url: `https://noembed.com/embed?dataType=json&url=${encodeURIComponent(url)}`,
+		});
+
+		return data as YoutubeVideoInfo;
 	}
 
 	async getCookie(): Promise<string> {
@@ -63,7 +72,7 @@ export class BaseScraper {
 	}
 
 	cleanString(string: string) {
-		return string.trim();
+		return string ? string.trim() : string;
 	}
 
 	parseNumber(number: string) {
@@ -71,14 +80,32 @@ export class BaseScraper {
 	}
 
 	parseUrl(url: string) {
-		const { query } = queryString.parseUrl(url);
+		const { query, url: path } = queryString.parseUrl(url);
 
 		return {
 			packageId: query["package"],
 			subjectId: query["subject"],
 			lessonId: query["lesson"],
 			purchId: query["purch"],
+			path: path,
 			raw: url,
 		} as ParsedIDs;
 	}
+}
+
+interface YoutubeVideoInfo {
+	thumbnail_width: number;
+	width: number;
+	provider_name: "YouTube";
+	thumbnail_url: string;
+	author_url: string;
+	author_name: string;
+	title: string;
+	type: "video";
+	height: number;
+	provider_url: "https://www.youtube.com/";
+	html: string;
+	url: string;
+	thumbnail_height: 360;
+	version: "1.0";
 }

@@ -27,6 +27,8 @@ export const userRouter = router({
 	getUser: protectedProcedure.query(async ({ ctx }) => {
 		const user = await ctx.scraper.getUser();
 
+		if (!user.username) throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" });
+
 		return user;
 	}),
 

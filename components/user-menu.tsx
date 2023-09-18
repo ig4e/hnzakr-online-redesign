@@ -17,7 +17,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export function UserMenu() {
-	const { isLoading, data } = trpc.user.getUser.useQuery(undefined, { retry: false });
+	const { isLoading, data } = trpc.user.getUser.useQuery(undefined, {
+		retry(failureCount, error) {
+			if (error.data?.code === "UNAUTHORIZED") return false;
+			return true;
+		},
+	});
 	const router = useRouter();
 
 	const logout = useCallback(() => {
@@ -34,7 +39,7 @@ export function UserMenu() {
 						{data && (
 							<Avatar>
 								<AvatarImage src={data.imageURL} />
-								<AvatarFallback>{data.username.substring(0, 2).toUpperCase()}</AvatarFallback>
+								<AvatarFallback>{data.username?.substring(0, 2).toUpperCase()}</AvatarFallback>
 							</Avatar>
 						)}
 					</Button>
@@ -58,7 +63,7 @@ export function UserMenu() {
 
 					<DropdownMenuSeparator />
 
-					<DropdownMenuItem>
+					<DropdownMenuItem onClick={() => router.push("/me/packages")}>
 						<PresentationIcon className="me-2 h-4 w-4" />
 						دروسى
 					</DropdownMenuItem>

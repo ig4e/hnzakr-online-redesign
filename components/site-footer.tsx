@@ -7,7 +7,7 @@ export function SiteFooter() {
 	return (
 		<div>
 			<footer>
-				<div className="bg-background z-50 w-full border-b">
+				<div className="bg-background z-50 w-full border-t">
 					<div className="container flex h-16 items-center justify-between">
 						<div className="h-8">
 							<Link href="/">

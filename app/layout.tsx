@@ -24,7 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<body className={cairo.className}>
 						<div className="min-h-screen h-full flex flex-col justify-between">
 							<SiteHeader></SiteHeader>
-							<main className="h-full flex-grow">{children}</main>
+							<div className="h-full flex-grow">
+								<main>{children}</main>
+							</div>
 							<SiteFooter></SiteFooter>
 						</div>
 						<Toaster />
