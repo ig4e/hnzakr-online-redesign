@@ -33,7 +33,10 @@ function NotificationsPage() {
 
 				{data &&
 					data.notifications.map((notification, index) => (
-						<Link key={index + "skeleton"} href={`/lesson?id=${notification.parsedIDs.lessonId}&package=${notification.parsedIDs.packageId}`}>
+						<Link
+							key={index + "skeleton"}
+							href={`/me/lesson/${notification.parsedIDs.packageId}/${notification.parsedIDs.lessonId}/${notification.parsedIDs.purchId}`}
+						>
 							<Card className="hover:bg-secondary hover:border-primary transition">
 								<CardHeader>{notification.title}</CardHeader>
 								<CardFooter>

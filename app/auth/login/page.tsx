@@ -16,13 +16,18 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function Login() {
-	const userQuery = trpc.user.getUser.useQuery();
+	const userQuery = trpc.user.getUser.useQuery(undefined, {
+		retry(failureCount, error) {
+			if (error.data?.code === "UNAUTHORIZED") return false;
+			return true;
+		},
+	});
 	const router = useRouter();
 	const { toast } = useToast();
 	const { isLoading, error, mutate } = trpc.user.login.useMutation({
 		onSuccess(data) {
 			localStorage.setItem("token", data.token);
-
+			userQuery.refetch();
 			toast({
 				title: "تم تسجيل الدخول بنجاح",
 			});

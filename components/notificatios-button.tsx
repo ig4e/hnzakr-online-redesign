@@ -8,17 +8,25 @@ import { BellIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 function NotificatiosButton() {
-	const { data, isLoading } = trpc.user.getNotifications.useQuery(undefined, {
+	const userQuery = trpc.user.getUser.useQuery(undefined, {
+		retry(failureCount, error) {
+			if (error.data?.code === "UNAUTHORIZED") return false;
+			return true;
+		},
+	});
+	const { data, isLoading, isError } = trpc.user.getNotifications.useQuery(undefined, {
 		retry(failureCount, error) {
 			if (error.data?.code === "UNAUTHORIZED") return false;
 			return true;
 		},
 	});
 
+	console.log(data);
+
 	return (
-		<Link href={"/me/notifications"} hidden={!data && !isLoading}>
+		<Link href={"/me/notifications"} hidden={!isLoading && !userQuery.isLoading && !userQuery.data?.id}>
 			<Button className="rounded-full relative p-2 w-10 h-10" variant={"ghost"} disabled={isLoading}>
-				{isLoading && <Icons.spinner className="animate-spin h-5 w-5 stroke-current" />}
+				{(isLoading || userQuery.isLoading) && <Icons.spinner className="animate-spin h-5 w-5 stroke-current" />}
 				{data && <BellIcon className="h-5 w-5 stroke-current"></BellIcon>}
 
 				{data && data.newNotificationsCount > 0 && (

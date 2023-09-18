@@ -33,11 +33,11 @@ export default function LessonPage({ params }: { params: { slug: [string, string
 			)}
 
 			{data && (
-				<div className="space-y-4">
+				<div className="space-y-4 ">
 					<Tabs defaultValue={"video-0"} className="" dir="rtl">
-						<TabsList className="w-full md:w-fit">
+						<TabsList className="w-full gap-2">
 							{data.attachments.videosURLs.map((video, index) => (
-								<TabsTrigger key={"video-" + index} value={"video-" + index}>
+								<TabsTrigger key={"video-" + index} value={"video-" + index} className="truncate line-clamp-1 text-start">
 									{video.name}
 								</TabsTrigger>
 							))}
