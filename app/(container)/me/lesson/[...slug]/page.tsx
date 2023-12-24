@@ -1,6 +1,7 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/utils/api";
@@ -17,7 +18,7 @@ export default function LessonPage({ params }: { params: { slug: [string, string
 	});
 
 	return (
-		<div>
+		<div className="space-y-4">
 			{isLoading && (
 				<div className="space-y-4">
 					<div className="space-y-2">
@@ -33,7 +34,7 @@ export default function LessonPage({ params }: { params: { slug: [string, string
 			)}
 
 			{data && (
-				<div className="space-y-4 ">
+				<>
 					<Tabs defaultValue={"video-0"} className="" dir="rtl">
 						<TabsList className="w-full gap-2">
 							{data.attachments.videosURLs.map((video, index) => (
@@ -84,8 +85,61 @@ export default function LessonPage({ params }: { params: { slug: [string, string
 							</div>
 						</CardContent>
 					</Card>
-				</div>
+				</>
 			)}
+
+			<h2 className="scroll-m-20 text-3xl font-semibold tracking-tight pb-2">الدروس الاخري</h2>
+
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				{isLoading &&
+					Array(5)
+						.fill(null)
+						.map((_, index) => (
+							<Card key={index + "skeleton"}>
+								<CardHeader>
+									<Skeleton key={"skeleton-" + index} className="w-full h-[38px] rounded-full" />
+								</CardHeader>
+								<CardContent className="flex flex-col gap-2">
+									{Array(5)
+										.fill(null)
+										.map((_, index) => (
+											<Skeleton key={"skeleton-" + index} className="w-full h-[30px] rounded-md" />
+										))}
+								</CardContent>
+							</Card>
+						))}
+
+				{data?.packageLessons &&
+					data.packageLessons.map((item) => {
+						return (
+							<Card key={item.categoryName}>
+								<CardHeader>
+									<CardTitle>{item.categoryName}</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div className="flex flex-col gap-2">
+										{item.lessons.map((lesson) => {
+											return (
+												<Link
+													key={lesson.id}
+													href={`/me/lesson/${lesson.parsedIDs.packageId}/${lesson.parsedIDs.lessonId}/${lesson.parsedIDs.purchId}`}
+												>
+													<Button className="flex gap-2 group w-full justify-start" variant={"outline"}>
+														<Badge variant={lesson.available ? "default" : "destructive"}>
+															{lesson.number}
+														</Badge>
+
+														<p className="group-hover:opacity-100">{lesson.name}</p>
+													</Button>
+												</Link>
+											);
+										})}
+									</div>
+								</CardContent>
+							</Card>
+						);
+					})}
+			</div>
 		</div>
 	);
 }

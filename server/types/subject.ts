@@ -17,5 +17,6 @@ export interface LessonInSubjectLessons {
 	id: number;
 	number: number;
 	name: string;
+	available: boolean;
 	parsedIDs: ParsedIDs;
 }

@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/api";
 import { Video } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -36,11 +37,12 @@ function PackagePage({ params }: { params: { packageId: string; purchId: string 
 				{data &&
 					data.map((item) => (
 						<Link href={`/me/subject/${params.packageId}/${item.id}/${item.parsedIDs.purchId}`} key={item.id}>
-							<Card>
+							<Card className="h-full flex flex-col justify-between">
 								<CardHeader>
 									<CardTitle>{item.name}</CardTitle>
 								</CardHeader>
 								<CardContent>
+									<Image src={item.imageURL} alt={item.name} width={720} height={720}></Image>
 									<p>{item.description}</p>
 								</CardContent>
 								<CardFooter>

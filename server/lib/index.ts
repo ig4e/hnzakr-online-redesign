@@ -140,6 +140,41 @@ export class Scraper extends BaseScraper {
 					id: this.parseNumber(parsedUrl.lessonId!),
 					name: this.cleanString($$$(`span:nth-child(4)`).text()),
 					number: this.parseNumber($$$(`span:nth-child(2) > text`).text()),
+					available: !!$$(`text > i.fa-check`).attr("class"),
+					parsedIDs: parsedUrl,
+				});
+			});
+
+			lessons.push({
+				categoryName,
+				lessons: lessonsInCategory,
+			});
+		});
+
+		return lessons;
+	}
+
+	async getLessonSubjectPackage({ id, packageId, purchId }: { id: number; packageId: number; purchId: number }) {
+		const { data } = await this.client.get(`/Lesson?package=${packageId}&lesson=${id}&purch=${purchId}`);
+		const $ = this.loadHtml(data);
+		const lessons: SubjectLessons[] = [];
+
+		$("#percat > ul > li").each((i, el) => {
+			const $$ = this.loadHtml(el);
+			const categoryName = this.cleanString($$("span").text());
+			const lessonsInCategory: LessonInSubjectLessons[] = [];
+
+			$$("ul.lesmenu > a").each((i, el) => {
+				const $$$ = this.loadHtml(el);
+				const parsedUrl = this.parseUrl($$$("a").attr("href")!);
+
+				const [rawNumber, rawName] = this.cleanString($$$(`li`).text()).split("-");
+
+				lessonsInCategory.push({
+					id: this.parseNumber(parsedUrl.lessonId!),
+					name: this.cleanString(rawName),
+					number: this.parseNumber(rawNumber),
+					available: !!$$(`text > i.fa-check`).attr("class"),
 					parsedIDs: parsedUrl,
 				});
 			});
@@ -168,6 +203,7 @@ export class Scraper extends BaseScraper {
 				videosURLs: [],
 				othersURLs: [],
 			},
+			packageLessons: await this.getLessonSubjectPackage({ id, packageId, purchId }),
 		};
 
 		$("#body > main > section > ul > li").each((i, el) => {
@@ -200,7 +236,7 @@ export class Scraper extends BaseScraper {
 		};
 
 		lesson.attachments.othersURLs.push(whatsappTeacher);
-		
+
 		lesson.attachments.videosURLs = await Promise.all(
 			lesson.attachments.videosURLs.map(async (video) => {
 				const videoInfo = await this.getYoutubeVideoInfo(video.url);

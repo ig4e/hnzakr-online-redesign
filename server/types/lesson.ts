@@ -1,9 +1,12 @@
+import { SubjectLessons } from "./subject";
+
 export interface Lesson {
 	id: number;
 	name: string;
 	description: string;
 	createdAt: string;
 	attachments: LessonAttachments;
+	packageLessons: SubjectLessons[];
 }
 
 export interface LessonAttachments {

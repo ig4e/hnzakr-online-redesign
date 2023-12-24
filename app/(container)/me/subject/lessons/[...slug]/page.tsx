@@ -50,9 +50,15 @@ export default function SubjectLessonsPage({ params }: { params: { slug: [string
 									<div className="flex flex-col gap-2">
 										{item.lessons.map((lesson) => {
 											return (
-												<Link key={lesson.id} href={`/me/lesson/${lesson.parsedIDs.packageId}/${lesson.parsedIDs.lessonId}/${lesson.parsedIDs.purchId}`}>
+												<Link
+													key={lesson.id}
+													href={`/me/lesson/${lesson.parsedIDs.packageId}/${lesson.parsedIDs.lessonId}/${lesson.parsedIDs.purchId}`}
+												>
 													<Button className="flex gap-2 group w-full justify-start" variant={"outline"}>
-														<Badge className="group-hover:bg-primary/100">{lesson.number}</Badge>
+														<Badge variant={lesson.available ? "default" : "destructive"}>
+															{lesson.number}
+														</Badge>
+
 														<p className="group-hover:opacity-100">{lesson.name}</p>
 													</Button>
 												</Link>
