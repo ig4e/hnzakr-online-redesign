@@ -154,8 +154,24 @@ export class Scraper extends BaseScraper {
 		return lessons;
 	}
 
-	async getLessonSubjectPackage({ id, packageId, purchId }: { id: number; packageId: number; purchId: number }) {
-		const { data } = await this.client.get(`/Lesson?package=${packageId}&lesson=${id}&purch=${purchId}`);
+	async getLessonSubjectPackage({ data }: { data: number }): Promise<SubjectLessons[]>;
+	async getLessonSubjectPackage({
+		id,
+		packageId,
+		purchId,
+	}: {
+		id: number;
+		packageId: number;
+		purchId: number;
+	}): Promise<SubjectLessons[]>;
+	async getLessonSubjectPackage({ data: rawData, id, packageId, purchId }: any) {
+		let data: string = rawData;
+
+		if (!data) {
+			const { data: reqData } = await this.client.get(`/Lesson?package=${packageId}&lesson=${id}&purch=${purchId}`);
+			data = reqData;
+		}
+
 		const $ = this.loadHtml(data);
 		const lessons: SubjectLessons[] = [];
 
@@ -203,7 +219,7 @@ export class Scraper extends BaseScraper {
 				videosURLs: [],
 				othersURLs: [],
 			},
-			packageLessons: await this.getLessonSubjectPackage({ id, packageId, purchId }),
+			packageLessons: await this.getLessonSubjectPackage({ data }),
 		};
 
 		$("#body > main > section > ul > li").each((i, el) => {
